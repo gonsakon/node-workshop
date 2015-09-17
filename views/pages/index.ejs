@@ -1,0 +1,47 @@
+<h1><%= ogheadTitle %></h1> 
+<!-- <img src="images/banner141229.jpg" alt=""> -->
+<ul>
+<% for(var i=0; i<listdata.length; i++) {%> 
+  <li><%= listdata[i] %></li>
+<% } %>
+</ul>
+<h1>傳統方式送出</h1>
+<form action="/post" method='post'>
+  <span>請輸入密碼</span>
+  <input type="text" name="password">
+  <input type="submit" vlaue="送出">
+</form>
+
+<h1>jQuery ajax送出</h1>
+<input type="text" id="password">
+<input type="button" id="send" value="送出">
+
+<h1>取得資料</h1>
+<input type="button" id="getData" value="取得電話資料">
+<ul id="list"></ul>
+<script>
+  jQuery(document).ready(function($) {
+    $('#send').on('click', function(event) {
+      event.preventDefault();
+      var str = $('#password').val();
+      console.log(str);
+      $.post('/postAjax', {'password': str}).success(function(data){
+        console.log(data);
+        if(data=='success'){
+        alert('密碼輸入成功')
+        }else{
+          alert('密碼輸入錯誤')
+        }
+      });
+    });
+    $('#getData').on('click', function(event) {
+      event.preventDefault();
+      $.get('/getAjax').success(function(data){
+        // console.log(data)
+        for(i=0;data.length>i;i++){
+          $('#list').append('<li>姓名：'+data[i].name+' 電話：'+data[i].tel);
+        }
+      });
+    });
+  });
+</script>
