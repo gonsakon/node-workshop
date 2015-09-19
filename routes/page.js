@@ -42,3 +42,14 @@ exports.getAjax = function(req, res) {
         tel: '0929735162'
     }]);
 };
+
+//get取得Json
+exports.getJson = function(req, res){
+    var tours = [
+        { id: 0, name: 'Hood River', price: 99.99 },
+        { id: 1, name: 'Oregon Coast', price: 149.95}
+    ]
+
+    res.json(tours);
+}
+

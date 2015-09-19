@@ -18,7 +18,16 @@
 
 <h1>取得資料</h1>
 <input type="button" id="getData" value="取得電話資料">
+<input type="button" id="getJson" value="取得Json">
 <ul id="list"></ul>
+
+<h1>上傳文件(PDF、Word)</h1>
+<span>
+  upload
+  <input type="file" required accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" id="fieldUpload" data-url="/upload" multiple>
+</sapn>
+<ul id="uploadList"></ul>
+
 <script>
   jQuery(document).ready(function($) {
     $('#send').on('click', function(event) {
@@ -38,10 +47,34 @@
       event.preventDefault();
       $.get('/getAjax').success(function(data){
         // console.log(data)
+        $('#list').children().remove()
         for(i=0;data.length>i;i++){
           $('#list').append('<li>姓名：'+data[i].name+' 電話：'+data[i].tel);
         }
       });
     });
+    $('#getJson').on('click', function(event) {
+      event.preventDefault();
+      $.get('/getJson').success(function(data){
+        // console.log(data)
+        $('#list').children().remove()
+        for(i=0;data.length>i;i++){
+          $('#list').append('<li>名稱：'+data[i].name+' 價錢：'+data[i].price);
+        }
+      });
+    });
+    $('#fieldUpload').fileupload({
+      dataType: 'json',
+      done: function(e, data){
+        $.each(data.result.files, function(index, file){
+          $('#uploadList').append(
+            '<li>' + 
+              '<a href="/upload/' + file.originalName + '" target="_blank">' 
+              + file.originalName + '</a>' + 
+            '</li>'
+          );
+        })
+      }
+    })
   });
 </script>
