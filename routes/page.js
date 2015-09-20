@@ -1,11 +1,31 @@
 //首頁
 
+//取得檔案列表
+var fs = require('fs');
+
 exports.index = function(req, res) {
     var data = ['王小名', '李小花', '菜頭'];
-    res.render('pages/index', {
-        ogheadTitle: '首頁內容',
-        listdata: data
+
+    fs.readdir(__dirname + '/public/upload/', function(err, files) {
+
+        var fileList = [];
+
+        for(var f in files){
+            var extension = files[f].split('.').pop().toLowerCase();
+
+            if (["pdf", "doc", "docx"].indexOf(extension) != -1){
+                fileList.push(files[f]);
+            }
+            
+        }
+
+        res.render('pages/index', {
+            ogheadTitle: '首頁內容',
+            listdata: data,
+            fileList: fileList
+        });
     });
+
 };
 
 //傳統輸入 
@@ -53,3 +73,17 @@ exports.getJson = function(req, res){
     res.json(tours);
 }
 
+//上傳檔案
+var jqupload = require('jquery-file-upload-middleware');
+
+exports.upload = function(req, res, next){
+
+    jqupload.fileHandler({
+        uploadDir: function(){
+            return __dirname + '/public/upload/';
+        },
+        uploadUrl: function(){
+            return '/upload';
+        }
+    })(req, res, next);
+}

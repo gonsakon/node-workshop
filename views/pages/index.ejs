@@ -26,7 +26,11 @@
   upload
   <input type="file" required accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" id="fieldUpload" data-url="/upload" multiple>
 </sapn>
-<ul id="uploadList"></ul>
+<ul id="uploadList">
+<% for(var i=0; i<fileList.length; i++) {%> 
+  <li><a target="_blank" href="/upload/<%= fileList[i] %>"><%= fileList[i] %></a></li>
+<% } %>
+</ul>
 
 <script>
   jQuery(document).ready(function($) {

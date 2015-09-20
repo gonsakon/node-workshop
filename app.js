@@ -6,8 +6,7 @@ var app = require('express')();
 var partials = require('express-partials');
 var static = require('serve-static');
 var bodyParser = require('body-parser');
-var favicon = require('serve-favicon');
-var jqupload = require('jquery-file-upload-middleware');
+var favicon = require('serve-favicon');    
 
 // router設定
 var page = require('./routes/page');
@@ -36,18 +35,7 @@ app.get('/getAjax',page.getAjax);
 app.get('/getJson', page.getJson);
 
 // 檔案上傳
-app.use('/upload', function(req, res, next){
-    var now = Date.now();
-
-    jqupload.fileHandler({
-        uploadDir: function(){
-            return __dirname + '/public/upload/';
-        },
-        uploadUrl: function(){
-            return '/upload';
-        }
-    })(req, res, next);
-});
+app.use('/upload', page.upload);
 
 
 //偵測3000 port
