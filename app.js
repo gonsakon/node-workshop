@@ -1,4 +1,4 @@
-//node 預設模組
+// node 預設模組
 var path = require('path');
 
 // NPM 模組
@@ -11,8 +11,8 @@ var favicon = require('serve-favicon');
 // router設定
 var page = require('./routes/page');
 
-/// parse application/x-www-form-urlencoded 
-//讓回傳的值可以解析 json與 urlencoded
+// parse application/x-www-form-urlencoded 
+// 讓回傳的值可以解析 json與 urlencoded
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true}));
 
@@ -33,10 +33,6 @@ app.post('/post',page.post);
 app.post('/postAjax',page.postAjax);
 app.get('/getAjax',page.getAjax);
 app.get('/getJson', page.getJson);
-
-// 檔案上傳
-app.use('/upload', page.upload);
-
 
 //偵測3000 port
 app.listen(3000);
