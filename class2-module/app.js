@@ -1,5 +1,4 @@
-var dogborn = require('./dogborn');
 var dogAction = require('./dogAction');
-
-dogborn();
+var dogborn = require('./dogborn');
 dogAction.catchBall();
+dogborn();
